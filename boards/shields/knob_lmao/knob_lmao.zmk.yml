@@ -1,0 +1,9 @@
+file_format: "1"
+id: knob_lmao
+name: knob_lmao
+type: shield
+features:
+  - keys
+  - studio
+requires:
+  - pro_micro
