@@ -1,0 +1,6 @@
+if SHIELD_KNOB_LMAO
+
+config ZMK_KEYBOARD_NAME
+    default "knob_lmao"
+
+endif # SHIELD_KNOB_LMAO
