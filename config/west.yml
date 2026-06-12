@@ -1,9 +1,9 @@
 manifest:
   defaults:
-    revision: v0.3
+    revision: encoder
   remotes:
     - name: zmkfirmware
-      url-base: https://github.com/zmkfirmware
+      url-base: https://github.com/DEREFERENC3D
   projects:
     - name: zmk
       remote: zmkfirmware
