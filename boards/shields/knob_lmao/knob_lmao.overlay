@@ -3,6 +3,11 @@
 #include "knob_lmao-layouts.dtsi"
 
 / {
+    chosen {
+        zmk,physical-layout = &default_layout;
+        zephyr,console = &cdc_acm_uart;
+    };
+
     kscan: kscan {
         compatible = "zmk,kscan-gpio-direct";
         wakeup-source;
@@ -38,4 +43,12 @@
         triggers-per-rotation = <20>;
     };
 
+};
+
+&usbd {
+    status = "okay";
+    cdc_acm_uart: cdc_acm_uart {
+        compatible = "zephyr,cdc-acm-uart";
+        label = "CDC_ACM_0";
+    };
 };
