@@ -1,5 +1,5 @@
 / {
-	kscan: kscan {
+	knob_button: kscan_direct {
         compatible = "zmk,kscan-gpio-direct";
         wakeup-source;
 
