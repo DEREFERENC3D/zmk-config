@@ -1,24 +1,12 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 #include "knob_lmao-layouts.dtsi"
+#include "knob/button.dtsi"
 
 / {
     chosen {
         zmk,physical-layout = &default_layout;
         zephyr,console = &cdc_acm_uart;
-    };
-
-    kscan: kscan {
-        compatible = "zmk,kscan-gpio-direct";
-        wakeup-source;
-
-        input-gpios = <&pro_micro 21 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-
-        // defaults, possibly optional
-        debounce-press-ms = <5>;
-        debounce-release-ms = <5>;
-        debounce-scan-period-ms = <1>;
-        poll-period-ms = <10>;
     };
 
     default_transform: default_transform {
