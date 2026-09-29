@@ -1,6 +1,7 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
+#include <dt-bindings/zmk/mouse.h>
 
 &knob {
     status = "okay";
@@ -8,6 +9,29 @@
 &knob_button {
     status = "okay";
 };
+
+#ifdef MOUSE_PS2_DT_PRESENT
+    &mouse_ps2  {
+        status = "okay";
+    };
+
+    &mouse_ps2_input_listener {
+        status = "okay";
+    };
+
+    #ifdef MOUSE_PS2_DRIVER_UART
+        &uart0 {
+            status = "okay";
+        };
+        &uart_ps2 {
+            status = "okay";
+        };
+    #else
+        &gpio_ps2  {
+            status = "okay";
+        };
+    #endif
+#endif
 
 &msc {
     time-to-max-speed-ms = <0>;

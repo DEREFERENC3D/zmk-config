@@ -1,8 +1,40 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
+#include <input/processors.dtsi>
+#include <dt-bindings/zmk/input_transform.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
 #include "knob_lmao-layouts.dtsi"
 #include "knob/button.dtsi"
 #include "knob/encoder.dtsi"
+
+// Comment out to disable PS/2 pointing device support
+#define MOUSE_PS2_DT_PRESENT
+
+// Comment out the following define to use the PS/2 GPIO driver (slow).
+#define MOUSE_PS2_DRIVER_UART
+
+// SDA | D2 | P0.17
+#define MOUSE_PS2_PIN_SDA_PRO_MICRO <&pro_micro 2 GPIO_ACTIVE_HIGH>
+#define MOUSE_PS2_PIN_SDA_PINCTRL <NRF_PSEL(UART_RX, 0, 17)>
+// SCL | D3 | P0.20
+#define MOUSE_PS2_PIN_SCL_PRO_MICRO <&pro_micro 3 GPIO_ACTIVE_HIGH>
+// RST | D4 | P0.22
+#define MOUSE_PS2_PIN_RST_PRO_MICRO <&pro_micro 4 GPIO_ACTIVE_HIGH>
+
+#define MOUSE_PS2_UART_BAUD_RATE <14400>
+
+#define MOUSE_PS2_PIN_UNEXPOSED_TX <NRF_PSEL(UART_TX, 0, 27)>
+#define MOUSE_PS2_PIN_UNEXPOSED_RX <NRF_PSEL(UART_RX, 0, 28)>
+
+#ifdef MOUSE_PS2_DT_PRESENT
+    #include "ps2/interrupts.dtsi"
+    #ifdef MOUSE_PS2_DRIVER_UART
+        #include "ps2/uart.dtsi"
+    #else
+        #include "ps2/gpio.dtsi"
+    #endif
+#endif
 
 / {
     chosen {
@@ -32,3 +64,27 @@
         label = "CDC_ACM_0";
     };
 };
+
+
+
+#ifdef MOUSE_PS2_DT_PRESENT
+/ {
+    mouse_ps2: mouse_ps2 {
+        compatible = "zmk,input-mouse-ps2";
+        status = "disabled";
+#ifdef MOUSE_PS2_DRIVER_UART
+	    ps2-device = <&uart_ps2>;
+#else
+	    ps2-device = <&gpio_ps2>;
+#endif
+#ifdef MOUSE_PS2_PIN_RST_PRO_MICRO
+        rst-gpios = MOUSE_PS2_PIN_RST_PRO_MICRO;
+#endif
+    };
+    mouse_ps2_input_listener: mouse_ps2_input_listener {
+        compatible = "zmk,input-listener";
+        status = "disabled";
+        device = <&mouse_ps2>;
+    };
+};
+#endif
