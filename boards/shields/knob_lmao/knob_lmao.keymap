@@ -64,4 +64,8 @@
     &mouse_ps2_input_listener {
         input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT)>;
     };
+
+	&mouse_ps2 {
+		tp-sensitivity = <100>;
+	};
 #endif
